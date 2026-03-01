@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Click&Eat - Sistema de Reservas</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-utensils"></i>
+                    <div class="logo-text">
+                        <h1>Click&Eat</h1>
+                        <p>Sistema de Reservas</p>
+                    </div>
+                </div>
+                <div class="view-buttons">
+                    <button class="btn btn-primary active" id="btnCustomerView">
+                        <i class="fas fa-user"></i>
+                        <span class="btn-text">Vista Cliente</span>
+                    </button>
+                    <button class="btn btn-outline" id="btnAdminView">
+                        <i class="fas fa-th"></i>
+                        <span class="btn-text">Vista Admin</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Vista Cliente -->
+        <div id="customerView" class="view-container active">
+            <div class="container-small">
+                <div class="text-center mb-large">
+                    <h2 class="title">Reserva tu Mesa</h2>
+                    <p class="subtitle">Selecciona fecha, hora y número de personas</p>
+                </div>
+
+                <!-- Confirmación -->
+                <div id="confirmationCard" class="card confirmation-card hidden">
+                    <div class="confirmation-content">
+                        <div class="confirmation-icon">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <h3>¡Reserva Confirmada!</h3>
+                        <p id="confirmationDetails"></p>
+                    </div>
+                </div>
+
+                <!-- Formulario de Reserva -->
+                <div id="reservationForm">
+                    <!-- Selección de Fecha -->
+                    <div class="card mb-medium">
+                        <div class="card-header">
+                            <i class="fas fa-calendar-alt icon-primary"></i>
+                            <h3>Selecciona una fecha</h3>
+                        </div>
+                        <div class="card-body">
+                            <input type="date" id="dateInput" class="input-date">
+                        </div>
+                    </div>
+
+                    <!-- Número de Personas -->
+                    <div class="card mb-medium">
+                        <div class="card-header">
+                            <i class="fas fa-users icon-primary"></i>
+                            <h3>Número de personas</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="guests-grid" id="guestsGrid">
+                                <!-- Se genera dinámicamente con JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Horarios Disponibles -->
+                    <div class="card mb-medium">
+                        <div class="card-header">
+                            <i class="fas fa-clock icon-primary"></i>
+                            <h3>Horarios disponibles</h3>
+                        </div>
+                        <div class="card-body">
+                            <p class="date-display" id="selectedDateDisplay"></p>
+                            <div class="time-grid" id="timeGrid">
+                                <!-- Se genera dinámicamente con JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Datos del Cliente -->
+                    <div class="card mb-medium" id="customerDataCard" style="display: none;">
+                        <div class="card-header">
+                            <i class="fas fa-user-edit icon-primary"></i>
+                            <h3>Completa tus datos</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="customerName">Nombre completo *</label>
+                                <input type="text" id="customerName" class="input" placeholder="Tu nombre" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="customerPhone">Teléfono</label>
+                                <input type="tel" id="customerPhone" class="input" placeholder="+34 600 000 000">
+                            </div>
+                            <div class="form-group">
+                                <label for="customerEmail">Email</label>
+                                <input type="email" id="customerEmail" class="input" placeholder="tu@email.com">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botones de Acción -->
+                    <button class="btn btn-large btn-primary w-full" id="btnContinue">
+                        Continuar
+                    </button>
+                    <button class="btn btn-large btn-primary w-full hidden" id="btnConfirmReservation">
+                        <i class="fas fa-check"></i> Confirmar Reserva
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vista Administrador -->
+        <div id="adminView" class="view-container">
+            <div class="container">
+                <div class="mb-large">
+                    <h2 class="title">Panel de Administración</h2>
+                    <p class="subtitle">Gestiona las reservas y disponibilidad del restaurante</p>
+                </div>
+
+                <!-- Plano de Mesas -->
+                <div class="card mb-medium">
+                    <div class="card-header">
+                        <i class="fas fa-th-large icon-primary"></i>
+                        <h3>Plano del Restaurante</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="floor-legend">
+                            <div class="legend-item">
+                                <span class="legend-color bg-green"></span>
+                                <span>Disponible</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color bg-red"></span>
+                                <span>Ocupada</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color bg-yellow"></span>
+                                <span>Próxima</span>
+                            </div>
+                        </div>
+                        <div class="floor-plan" id="floorPlan">
+                            <!-- Se genera dinámicamente con JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lista de Reservas -->
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-calendar-check icon-primary"></i>
+                        <h3>Reservas de Hoy - <span id="todayDate"></span></h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="reservationsList">
+                            <div class="loading">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                <p>Cargando reservas...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-utensils"></i>
+                        <span>Click&Eat</span>
+                    </div>
+                    <p>Plataforma digital de reservas para restaurantes. Optimiza tu operación y mejora la experiencia del cliente.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Contacto</h4>
+                    <p><i class="fas fa-envelope"></i> info@clickandeat.com</p>
+                    <p><i class="fas fa-phone"></i> +34 900 123 456</p>
+                    <p><i class="fas fa-clock"></i> Lun-Dom 9:00-23:00</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Enlaces</h4>
+                    <p><a href="#">Sobre Nosotros</a></p>
+                    <p><a href="#">Términos y Condiciones</a></p>
+                    <p><a href="#">Política de Privacidad</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Click&Eat. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
