@@ -104,6 +104,37 @@ body {
     gap: 0.5rem;
 }
 
+/* User Menu */
+.user-menu {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-left: auto;
+    padding-left: 1rem;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--color-gray-700);
+}
+
+.user-info i {
+    font-size: 1.5rem;
+    color: var(--color-primary);
+}
+
+.user-name {
+    font-weight: 500;
+}
+
+.btn-sm {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+}
+
 /* Botones */
 .btn {
     display: inline-flex;
@@ -570,11 +601,6 @@ body {
     display: flex;
     gap: 0.5rem;
     justify-content: flex-end;
-}
-
-.btn-sm {
-    padding: 0.5rem 0.75rem;
-    font-size: 0.875rem;
 }
 
 /* Loading */

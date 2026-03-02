@@ -4,6 +4,34 @@ CREATE DATABASE clickandeat;
 -- Conectarse a la base de datos
 \c clickandeat;
 
+-- Tabla de usuarios (para autenticación)
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    full_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255),
+    role VARCHAR(50) DEFAULT 'admin',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Insertar usuario administrador por defecto
+-- Usuario: admin, Contraseña: admin123
+INSERT INTO users (username, password, full_name, email, role) VALUES
+('admin', '$2a$10$8K1p/a0dL3.ZC1z5v5M4Pu9YL6B5nR3g4H5hC8J9K0M1N2O3P4Q5R', 'Administrador', 'admin@clickandeat.com', 'admin');
+
+-- Nota: La contraseña está hasheada con bcrypt. Para cambiarla, usa el endpoint /api/auth/hash-password
+
+-- Tabla de sesiones
+CREATE TABLE sessions (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    token VARCHAR(500) UNIQUE NOT NULL,
+    expires_at TIMESTAMP NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Tabla de reservas
 CREATE TABLE reservations (
     id SERIAL PRIMARY KEY,

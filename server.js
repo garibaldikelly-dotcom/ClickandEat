@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const path = require('path');
 require('dotenv').config();
 
@@ -11,21 +12,29 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 // Servir archivos estáticos
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Importar rutas
+const authRoutes = require('./routes/auth');
 const reservationsRoutes = require('./routes/reservations');
 const tablesRoutes = require('./routes/tables');
 
 // Usar rutas
+app.use('/api/auth', authRoutes);
 app.use('/api/reservations', reservationsRoutes);
 app.use('/api/tables', tablesRoutes);
 
 // Ruta raíz
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// Ruta de login
+app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'login.html'));
 });
 
 // Manejo de errores
